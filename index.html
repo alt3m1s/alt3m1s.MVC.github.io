@@ -1,0 +1,101 @@
+<!DOCTYPE html> <!--Hansel Perez_100323660-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+       
+        h1{
+            color: rgb(18, 62, 182);
+        }  
+    </style>
+</head>
+<body>
+
+<center><h1>Modelo Vista Controlador (MVC):</h1></center>
+
+<p> MVC es un patrón arquitectónico que divide una aplicación en tres componentes principales: Modelo, Vista y Controlador. Este enfoque proporciona una estructura organizada y modular, facilitando el desarrollo, la mantenibilidad y la escalabilidad de aplicaciones.</p>
+
+<strong><p>Uso:</strong><br><br>
+
+    <strong>Modelo (Model):</strong> Representa la lógica de la aplicación y la gestión de datos. Se encarga de acceder y manipular los datos, así como de realizar operaciones relacionadas con la lógica de negocio.<br><br>
+    <strong>Vista (View):</strong> Es responsable de la presentación y la interfaz de usuario. Muestra la información al usuario y recoge las interacciones, pero no realiza operaciones directas sobre los datos.<br><br>
+    <strong>Controlador (Controller):</strong> Actúa como intermediario entre el Modelo y la Vista. Maneja las interacciones del usuario, actualiza el Modelo y refleja los cambios en la Vista. El Controlador no debería contener lógica de negocio, que debe residir en el Modelo.<br><br>
+</p>
+
+<h1>Ejemplo del Modelo MVC:</h1>
+<p> Supongamos que estamos desarrollando una aplicación de lista de tareas. Aquí hay una implementación básica de MVC en JavaScript:</p>
+<h1>Tareas - MVC</h1>
+
+<button onclick="agregarTarea()">Agregar Tarea</button>
+
+<script>
+    class TaskModel {
+        constructor() {
+            this.tasks = [];
+        }
+
+        addTask(task) {
+            this.tasks.push(task);
+        }
+
+        getTasks() {
+            return this.tasks;
+        }
+    }
+
+    class TaskView {
+        displayTasks(tasks) {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            tasks.forEach(task => {
+                const listItem = document.createElement('li');
+                listItem.textContent = task;
+                taskList.appendChild(listItem);
+            });
+        }
+    }
+
+    class TaskController {
+        constructor(model, view) {
+            this.model = model;
+            this.view = view;
+        }
+
+        addTask(task) {
+            this.model.addTask(task);
+            this.updateView();
+        }
+
+        updateView() {
+            const tasks = this.model.getTasks();
+            this.view.displayTasks(tasks);
+        }
+    }
+
+    const taskModel = new TaskModel();
+    const taskView = new TaskView();
+    const taskController = new TaskController(taskModel, taskView);
+
+    function agregarTarea() {
+        const nuevaTarea = prompt("Ingrese una nueva tarea:");
+        if (nuevaTarea) {
+            taskController.addTask(nuevaTarea);
+        }
+    }
+
+</script>
+
+<ul id="taskList"></ul><br>
+
+<p> En este ejemplo, añadi un botón "Agregar Tarea" que permite al usuario ingresar una nueva tarea mediante un cuadro de diálogo. La lista de tareas se muestra en un elemento <strong>ul</strong> en la página. Al hacer clic en el botón, se llama a la función agregarTarea(), que a su vez utiliza el controlador (taskController) para agregar la tarea al modelo y actualizar la vista.</p>
+
+
+</body>
+</html>
